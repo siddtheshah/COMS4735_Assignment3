@@ -3,14 +3,21 @@
 #include <opencv2/opencv.hpp>
 
 struct BuildingInfo {
-	std::string name;
-	cv::Mat mask;
+	std::string name = "";
+	cv::Mat mask;               // Binary image
+	cv::Rect bounding_box;
 	cv::Point upper_left;
 	cv::Point lower_right;
 	cv::Point centroid;
-	int pixel_area;
+	int pixel_area = 0;
 	std::vector<std::string> shape_descriptions;
 	std::vector<std::string> absolute_space_descriptions;
 	std::vector<std::string> relative_space_descriptions;
 	std::vector<cv::Point> contour;
+	std::vector<cv::Vec4i> defects;
+	std::vector<int> hull;
+	std::vector<cv::Point> corners;
+
+	double macro_score = 0.0;
+	std::string macro_descriptor = "";
 };
