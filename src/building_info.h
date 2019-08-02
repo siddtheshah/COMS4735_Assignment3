@@ -23,7 +23,7 @@ struct BuildingInfo {
 	std::vector<cv::Point> contour;
 	std::vector<cv::Vec4i> defects;
 	std::vector<int> hull;
-	std::vector<cv::Point> corners;
+	int corners = 0;
 
 	double macro_score = 0.0;
 	std::string macro_descriptor = "";

@@ -36,17 +36,29 @@ std::map<int, BuildingInfo> initialize_building_map(std::string& tableFileName) 
 	return name_map;
 }
 
-std::string building_info_text_output(BuildingInfo& buildingInfo) {
+std::string building_info_basic_output(BuildingInfo& buildingInfo) {
+	const char comma[] = { ',', ' ', '\0' };
+	std::stringstream ss;
+	ss << buildingInfo.name << "\n";
+	ss << "Centroid: (" << buildingInfo.centroid.x << "," << buildingInfo.centroid.y << ")\n";
+	ss << "Area: " << buildingInfo.pixel_area << "\n";
+	ss << "UpperLeft: (" << buildingInfo.upper_left.x << "," << buildingInfo.upper_left.y << ")\n";
+	ss << "LowerRight: (" << buildingInfo.lower_right.x << "," << buildingInfo.lower_right.y << ")\n";
+	ss << "\n";
+	return ss.str();
+}
+
+std::string building_info_descriptor_output(BuildingInfo& buildingInfo) {
 	const char comma[] = { ',', ' ', '\0' };
 	std::stringstream ss;
 	ss << buildingInfo.name << "\n";
 	ss << "Shape: " << join(buildingInfo.shape_descriptions, comma) << "\n";
 	ss << "Absolute: " << join(buildingInfo.absolute_space_descriptions, comma) << "\n";
 	ss << "Relative:\n";
-	ss << "\t" << "North: " << join(buildingInfo.north_of, comma) << "\n";
-	ss << "\t" << "South: " << join(buildingInfo.south_of, comma) << "\n";
-	ss << "\t" << "East: " << join(buildingInfo.east_of, comma) << "\n";
-	ss << "\t" << "West: " << join(buildingInfo.west_of, comma) << "\n";
+	ss << "\t" << "North Of: " << join(buildingInfo.north_of, comma) << "\n";
+	ss << "\t" << "South Of: " << join(buildingInfo.south_of, comma) << "\n";
+	ss << "\t" << "East Of: " << join(buildingInfo.east_of, comma) << "\n";
+	ss << "\t" << "West Of: " << join(buildingInfo.west_of, comma) << "\n";
 	ss << "\t" << "Near: " << join(buildingInfo.near, comma) << "\n";
 	ss << "\n";
 	return ss.str();

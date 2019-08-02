@@ -18,12 +18,8 @@ bool near(const BuildingInfo& b1, const BuildingInfo& b2) {
 }
 
 // If true, b1 is north of b2.
+// These functions work by checking the cardinal cones. 
 bool north_of(const BuildingInfo& b1, const BuildingInfo& b2) {
-	//imshow("Debug", .5*b1.mask + b2.mask);
-	//cout << "b1: " << b1.lower_right.y << "\n";
-	//cout << "b2: " << b2.upper_left.y << "\n";
-	//waitKey(0);
-	//destroyWindow("Debug");
 	return (b1.centroid.y < b2.centroid.y && abs(b2.centroid.y - b1.centroid.y) > abs(b2.centroid.x - b1.centroid.x))
 	 || b1.lower_right.y < b2.upper_left.y;
 }
@@ -138,8 +134,6 @@ ReductionMatrixHolder populate_relative_descriptors(std::map<int, BuildingInfo>&
 			if (west_matrix.at<uchar>(i, j)) buildingMap[i].west_of.emplace_back(buildingMap[j].name);
 	holder.west = west_matrix;
 	
-	// Filtering near based on building size. This allows length 2 cycles to remain.
-	// Of the b2s that are near, keep the biggest one. 
 	Mat near_matrix = create_near_matrix(buildingMap);
 	for (int i = 0; i < near_matrix.rows; ++i)
 		near_matrix.at<uchar>(i, i) = 0;

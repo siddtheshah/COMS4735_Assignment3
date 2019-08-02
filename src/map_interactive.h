@@ -16,6 +16,7 @@ class MapInteractive {
 public:
 	MapInteractive(cv::Mat map, std::map<int, BuildingInfo>* buildings, ReductionMatrixHolder reductions) 
 		: map_(map), buildings_(buildings), reductions_(reductions) {
+		restrict_color_ = cv::Vec3b(128, 128, 128);
 		map_.copyTo(shown_);
 		cv::namedWindow(kInteractive, 1);
 		cv::setMouseCallback(kInteractive, handle_event, this);
@@ -25,7 +26,9 @@ public:
 	cv::Mat get_shown() { return shown_; }
 	void clear() { map_.copyTo(shown_);	}
 
-	void add_point_cloud(const BuildingInfo& source, cv::Scalar color);
+	int add_point_cloud(const BuildingInfo& source, cv::Vec3b color);
+	bool is_valid_point(cv::Point p);
+	bool addable_neighbor(cv::Point p, cv::Vec3b color);
 	BuildingInfo create_fake_building(cv::Point point_source);
 
 	cv::Mat map_;
@@ -37,6 +40,7 @@ public:
 	BuildingInfo s_;
 	BuildingInfo t_;
 	InteractiveState state_;
+	cv::Vec3b restrict_color_;
 };
 
 void map_interactive(std::string mapFileName, std::map<int, BuildingInfo>* buildings, ReductionMatrixHolder reductions);

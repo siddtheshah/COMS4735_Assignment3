@@ -10,4 +10,6 @@
 
 std::string join(const std::vector<std::string>& vec, const char* delim);
 std::map<int, BuildingInfo> initialize_building_map(std::string& tableFileName);
-std::string building_info_text_output(BuildingInfo& buildingInfo);
+
+std::string building_info_basic_output(BuildingInfo& buildingInfo);
+std::string building_info_descriptor_output(BuildingInfo& buildingInfo);

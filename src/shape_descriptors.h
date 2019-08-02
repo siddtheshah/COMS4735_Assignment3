@@ -5,7 +5,6 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <opencv2/opencv.hpp>
 
 void add_size_description(std::map<int, BuildingInfo>& buildingMap);
 void add_thin_description(std::map<int, BuildingInfo>& buildingMap);
@@ -18,4 +17,4 @@ void evaluate_l_shape(std::map<int, BuildingInfo>& buildingMap);
 void evaluate_i_shape(std::map<int, BuildingInfo>& buildingMap);
 void evaluate_macro_description(std::map<int, BuildingInfo>& buildingMap, cv::Mat template_img, std::string descriptor);
 
-void populate_shape_descriptors(std::map<int, BuildingInfo>& buildingMap);
+void populate_shape_descriptor_(std::map<int, BuildingInfo>& buildingMap);

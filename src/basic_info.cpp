@@ -30,23 +30,16 @@ void add_basic_characteristics(map<int, BuildingInfo>& buildingMap) {
 		building.second.lower_right = Point(r.x + r.width, r.y + r.height);
 		building.second.centroid = Point(m.m10 / m.m00, m.m01 / m.m00);
 
-
-		//drawContours(edges, contours, 0, Scalar(255, 0, 255), 3);
-		//imshow("Contours", edges);
-		//waitKey(0);
-		//
-
 		convexHull(contours[0], building.second.hull);
 		convexityDefects(building.second.contour, building.second.hull, building.second.defects);
 
 		Mat gray = building.second.mask;
-		Mat corner_image, components, last, stat, centroids;
-		cornerHarris(gray, corner_image, 2, 3, 0.04);
-		dilate(corner_image, corner_image, Mat());
-		threshold(corner_image, corner_image, 2, 255, 0);
-		corner_image.convertTo(components, CV_8U);
-		connectedComponentsWithStats(components, last, stat, centroids);
+		Mat corner_image, dilated, components, last, stat, centroids;
+		cornerHarris(gray, corner_image, 2, 3, .001);
+		dilate(255*corner_image, dilated, Mat());
+		dilated.convertTo(components, CV_8U);
 
-		// std::cout << building.second.pixel_area << "\n";
+		connectedComponentsWithStats(components, last, stat, centroids);
+		building.second.corners = centroids.rows;
 	}
 }

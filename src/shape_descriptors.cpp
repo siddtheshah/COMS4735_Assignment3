@@ -55,7 +55,7 @@ void add_bumpy_description(map<int, BuildingInfo>& buildingMap) {
 
 void add_roundness_description(map<int, BuildingInfo>& buildingMap) {
 	for (auto& building : buildingMap) {
-		if (building.second.contour.size() > 20 && building.second.corners.size() < 20) {
+		if (building.second.contour.size() / (building.second.corners + 1) > 2) {
 			building.second.shape_descriptions.emplace_back("rounded");
 		}
 		else {
@@ -94,7 +94,6 @@ void evaluate_i_shape(std::map<int, BuildingInfo>& buildingMap) {
 }
 
 void evaluate_macro_description(map<int, BuildingInfo>& buildingMap, Mat template_img, string descriptor) {
-	// cout << descriptor << " ";
 	for (auto& building : buildingMap) {
 		Mat rotated = building.second.mask(building.second.bounding_box);
 		Mat resized, agreed;
@@ -104,25 +103,18 @@ void evaluate_macro_description(map<int, BuildingInfo>& buildingMap, Mat templat
 			rotate(rotated, rotated, ROTATE_90_CLOCKWISE);
 			resize(rotated, resized, size);
 			agreed = (resized > 0) == (template_img > 0);
-			// imshow("agree", 255*agreed);
-			// waitKey(0);
 			int count = countNonZero(agreed);
 			if (count > best) best = count;
 		}
 		double frac = best / (size.width * size.height);
-		// cout << building.second.name << ": " << frac << "\n";
-		// imshow(building.second.name, building.second.mask);
-		// waitKey(0);
-		// destroyWindow(building.second.name);
 		if (frac > building.second.macro_score) {
 			building.second.macro_score = frac;
 			building.second.macro_descriptor = descriptor;
 		}
 	}
-	// cout << "\n";
 }
 
-void populate_shape_descriptors(std::map<int, BuildingInfo>& buildingMap) {
+void populate_shape_descriptor_(std::map<int, BuildingInfo>& buildingMap) {
 	add_size_description(buildingMap);
 	add_thin_description(buildingMap);
 	add_bumpy_description(buildingMap);
