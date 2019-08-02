@@ -76,7 +76,7 @@ void add_directional_description(std::map<int, BuildingInfo>& buildingMap) {
 	}
 }
 
-void absolute_ingest(std::map<int, BuildingInfo>& buildingMap) {
+void populate_absolute_descriptors(std::map<int, BuildingInfo>& buildingMap) {
 	add_symmetry_description(buildingMap);
 	add_orientation_description(buildingMap);
 	add_centrality_description(buildingMap);
