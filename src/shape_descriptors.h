@@ -7,12 +7,6 @@
 #include <sstream>
 #include <opencv2/opencv.hpp>
 
-#pragma once
-
-
-void get_masks(std::string blobFileName, std::map<int, BuildingInfo>& buildingMap);
-void add_basic_characteristics(std::map<int, BuildingInfo>& buildingMap);
-
 void add_size_description(std::map<int, BuildingInfo>& buildingMap);
 void add_thin_description(std::map<int, BuildingInfo>& buildingMap);
 void add_bumpy_description(std::map<int, BuildingInfo>& buildingMap);

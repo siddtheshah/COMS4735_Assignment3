@@ -107,30 +107,36 @@ void cubic_transitive_reduction_directed(Mat m) {
 						m.at<uchar>(i, k) = false;
 }
 
-void populate_relative_descriptors(std::map<int, BuildingInfo>& buildingMap) {
+ReductionMatrixHolder populate_relative_descriptors(std::map<int, BuildingInfo>& buildingMap) {
+	ReductionMatrixHolder holder;
+
 	Mat north_matrix = create_north_matrix(buildingMap);
 	cubic_transitive_reduction_directed(north_matrix);
 	for (int i = 0; i < north_matrix.rows; ++i)
 		for (int j = 0; j < north_matrix.cols; ++j)
 			if (north_matrix.at<uchar>(i, j)) buildingMap[i].north_of.emplace_back(buildingMap[j].name);
+	holder.north = north_matrix;
 
 	Mat south_matrix = create_south_matrix(buildingMap);
 	cubic_transitive_reduction_directed(south_matrix);
 	for (int i = 0; i < south_matrix.rows; ++i)
 		for (int j = 0; j < south_matrix.cols; ++j)
 			if (south_matrix.at<uchar>(i, j)) buildingMap[i].south_of.emplace_back(buildingMap[j].name);
+	holder.south = south_matrix;
 
 	Mat east_matrix = create_east_matrix(buildingMap);
 	cubic_transitive_reduction_directed(east_matrix);
 	for (int i = 0; i < east_matrix.rows; ++i)
 		for (int j = 0; j < east_matrix.cols; ++j)
 			if (east_matrix.at<uchar>(i, j)) buildingMap[i].east_of.emplace_back(buildingMap[j].name);
+	holder.east = east_matrix;
 
 	Mat west_matrix = create_west_matrix(buildingMap);
 	cubic_transitive_reduction_directed(west_matrix);
 	for (int i = 0; i < west_matrix.rows; ++i)
 		for (int j = 0; j < west_matrix.cols; ++j)
 			if (west_matrix.at<uchar>(i, j)) buildingMap[i].west_of.emplace_back(buildingMap[j].name);
+	holder.west = west_matrix;
 	
 	// Filtering near based on building size. This allows length 2 cycles to remain.
 	// Of the b2s that are near, keep the biggest one. 
@@ -156,6 +162,8 @@ void populate_relative_descriptors(std::map<int, BuildingInfo>& buildingMap) {
 				buildingMap[i].near.emplace_back(buildingMap[j].name);
 		}
 	}
+	holder.near = near_matrix;
+	return holder;
 
 }
 

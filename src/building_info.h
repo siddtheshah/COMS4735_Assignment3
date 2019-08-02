@@ -28,3 +28,11 @@ struct BuildingInfo {
 	double macro_score = 0.0;
 	std::string macro_descriptor = "";
 };
+
+struct ReductionMatrixHolder {
+	cv::Mat near;
+	cv::Mat north;
+	cv::Mat south;
+	cv::Mat east;
+	cv::Mat west;
+};

@@ -46,9 +46,9 @@ void add_centrality_description(std::map<int, BuildingInfo>& buildingMap) {
 		int down_margin = campus_dims.height - building.second.lower_right.y;
 		int centroid_displacement_x = abs(campus_dims.width / 2 - building.second.centroid.x);
 		int centroid_displacement_y = abs(campus_dims.height / 2 - building.second.centroid.y);
-		if ((up_margin < 10 || left_margin < 10 || right_margin < 10 || down_margin < 10)
-			&& centroid_displacement_x > campus_dims.width / 3
-			&& centroid_displacement_y > campus_dims.height / 3) {
+		if (!(up_margin < 15 || left_margin < 15 || right_margin < 15 || down_margin < 15)
+			&& centroid_displacement_x < campus_dims.width / 3
+			&& centroid_displacement_y < campus_dims.height / 3) {
 			building.second.absolute_space_descriptions.emplace_back("central");
 		}
 		else {
